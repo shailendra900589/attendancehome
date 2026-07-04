@@ -35,6 +35,13 @@
 
         sections.forEach(({ section }) => observer.observe(section));
 
+        function closeMobileMenu() {
+            const collapse = navbar.querySelector('.navbar-collapse');
+            if (collapse?.classList.contains('show')) {
+                bootstrap.Collapse.getOrCreateInstance(collapse).hide();
+            }
+        }
+
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
@@ -43,10 +50,14 @@
                     const target = document.querySelector(href);
                     if (target) {
                         target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-                        navbar.querySelector('.navbar-collapse.show')?.classList.remove('show');
                     }
                 }
+                closeMobileMenu();
             });
+        });
+
+        navbar.querySelectorAll('.navbar-actions a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
         });
     }
 

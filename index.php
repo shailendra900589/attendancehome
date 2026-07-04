@@ -49,7 +49,7 @@ require __DIR__ . '/includes/head.php';
             <div class="row tb-hero-grid align-items-center g-3 g-lg-4">
                 <div class="col-lg-6 col-xl-6">
                     <div class="tb-hero-content">
-                        <div class="tb-hero-badge-wrap">
+                        <div class="tb-hero-badge-wrap tb-desktop-only">
                             <span class="tb-eyebrow tb-hero-eyebrow">
                                 <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
                                 A new &amp; faster HRMS stack
@@ -123,8 +123,8 @@ require __DIR__ . '/includes/head.php';
         </div>
     </section>
 
-    <!-- 2.2 Logo strip -->
-    <section class="tb-logo-strip" aria-label="Trusted by leading companies">
+    <!-- 2.2 Logo strip (desktop/tablet — hidden on phone to reduce clutter) -->
+    <section class="tb-logo-strip tb-desktop-only" aria-label="Trusted by leading companies">
         <div class="container">
             <p class="tb-logo-strip-label">Trusted by leading companies</p>
             <div class="row justify-content-center align-items-center g-3">
@@ -169,7 +169,7 @@ require __DIR__ . '/includes/head.php';
             </div>
             <?php foreach ($data['feature_deep_dive'] as $i => $feature): ?>
             <div class="tb-feature-row reveal">
-                <div class="row align-items-center g-4<?= $i % 2 === 1 ? ' flex-row-reverse' : '' ?>">
+                <div class="row align-items-center g-4<?= $i % 2 === 1 ? ' flex-lg-row-reverse' : '' ?>">
                     <div class="col-lg-6">
                         <div class="tb-icon-chip <?= e($feature['chip']) ?>"><i class="bi <?= e($feature['icon']) ?>"></i></div>
                         <h3><?= e($feature['title']) ?></h3>
