@@ -35,13 +35,6 @@
 
         sections.forEach(({ section }) => observer.observe(section));
 
-        function closeMobileMenu() {
-            const collapse = navbar.querySelector('.navbar-collapse');
-            if (collapse?.classList.contains('show')) {
-                bootstrap.Collapse.getOrCreateInstance(collapse).hide();
-            }
-        }
-
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
@@ -50,14 +43,10 @@
                     const target = document.querySelector(href);
                     if (target) {
                         target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+                        navbar.querySelector('.navbar-collapse.show')?.classList.remove('show');
                     }
                 }
-                closeMobileMenu();
             });
-        });
-
-        navbar.querySelectorAll('.navbar-actions a').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
         });
     }
 
@@ -174,11 +163,30 @@
         });
     }
 
+    function initScrollTop() {
+        const btn = document.getElementById('scrollTop');
+        if (!btn) return;
+
+        const toggle = () => {
+            const show = window.scrollY > 400;
+            btn.hidden = !show;
+            btn.classList.toggle('is-visible', show);
+        };
+
+        window.addEventListener('scroll', toggle, { passive: true });
+        toggle();
+
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initNavbar();
         initReveal();
         initStatsCounter();
         initDashboardMock();
         initUseCaseTabs();
+        initScrollTop();
     });
 })();

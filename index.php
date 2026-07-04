@@ -48,8 +48,8 @@ require __DIR__ . '/includes/head.php';
         <div class="container tb-hero-container">
             <div class="row tb-hero-grid align-items-center g-3 g-lg-4">
                 <div class="col-lg-6 col-xl-6">
-                    <div class="tb-hero-content">
-                        <div class="tb-hero-badge-wrap tb-desktop-only">
+                        <div class="tb-hero-content tb-hero-animate">
+                        <div class="tb-hero-badge-wrap">
                             <span class="tb-eyebrow tb-hero-eyebrow">
                                 <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
                                 A new &amp; faster HRMS stack
@@ -78,7 +78,7 @@ require __DIR__ . '/includes/head.php';
                 </div>
 
                 <div class="col-lg-6 col-xl-6">
-                    <div class="tb-hero-visual">
+                    <div class="tb-hero-visual tb-hero-animate tb-hero-animate--delay">
                         <div class="tb-dashboard-mock" id="dashboardMock" role="img" aria-label="Trackbook admin dashboard showing live attendance and payroll widgets">
                             <div class="tb-mock-window-bar" aria-hidden="true">
                                 <span class="tb-mock-dot"></span>
@@ -123,8 +123,8 @@ require __DIR__ . '/includes/head.php';
         </div>
     </section>
 
-    <!-- 2.2 Logo strip (desktop/tablet — hidden on phone to reduce clutter) -->
-    <section class="tb-logo-strip tb-desktop-only" aria-label="Trusted by leading companies">
+    <!-- 2.2 Logo strip -->
+    <section class="tb-logo-strip" aria-label="Trusted by leading companies">
         <div class="container">
             <p class="tb-logo-strip-label">Trusted by leading companies</p>
             <div class="row justify-content-center align-items-center g-3">
@@ -143,8 +143,11 @@ require __DIR__ . '/includes/head.php';
     <!-- 2.3 How it works -->
     <section class="tb-section tb-section-light" id="how-it-works" aria-labelledby="how-heading">
         <div class="container">
-            <h2 id="how-heading" class="tb-section-title text-center reveal">From clock-in to payslip, in one flow</h2>
-            <div class="row g-4 mt-2">
+            <div class="tb-section-header reveal">
+                <span class="tb-section-eyebrow">How it works</span>
+                <h2 id="how-heading" class="tb-section-title">From clock-in to payslip, in one flow</h2>
+            </div>
+            <div class="row g-4 mt-2 tb-steps-row">
                 <?php foreach ($data['how_it_works'] as $step): ?>
                 <div class="col-md-4 reveal">
                     <div class="tb-step">
@@ -164,19 +167,29 @@ require __DIR__ . '/includes/head.php';
     <section class="tb-section tb-section-white" id="features" aria-labelledby="features-heading">
         <div class="container">
             <div class="text-center mb-5 reveal">
+                <span class="tb-section-eyebrow">Platform modules</span>
                 <h2 id="features-heading" class="tb-section-title">Everything you need to manage your people</h2>
                 <p class="tb-section-sub mx-auto">Attendance, payroll, compliance, and collaboration — unified in one workspace with web dashboards and a professional mobile app.</p>
             </div>
             <?php foreach ($data['feature_deep_dive'] as $i => $feature): ?>
             <div class="tb-feature-row reveal">
-                <div class="row align-items-center g-4<?= $i % 2 === 1 ? ' flex-lg-row-reverse' : '' ?>">
+                <div class="row align-items-center g-4<?= $i % 2 === 1 ? ' flex-row-reverse' : '' ?>">
                     <div class="col-lg-6">
                         <div class="tb-icon-chip <?= e($feature['chip']) ?>"><i class="bi <?= e($feature['icon']) ?>"></i></div>
                         <h3><?= e($feature['title']) ?></h3>
                         <p><?= e($feature['paragraph']) ?></p>
                     </div>
                     <div class="col-lg-6">
-                        <div class="tb-feature-visual"><i class="bi <?= e($feature['icon']) ?>"></i></div>
+                        <div class="tb-feature-visual tb-feature-visual--<?= e($feature['chip']) ?>">
+                            <div class="tb-feature-mock">
+                                <span class="tb-feature-mock-dot"></span>
+                                <span class="tb-feature-mock-dot"></span>
+                                <span class="tb-feature-mock-dot"></span>
+                                <div class="tb-feature-mock-body">
+                                    <i class="bi <?= e($feature['icon']) ?>" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,7 +282,7 @@ require __DIR__ . '/includes/head.php';
     </section>
 
     <!-- 2.8 Stats band -->
-    <section class="tb-section tb-section-dark" aria-label="Platform statistics">
+    <section class="tb-section tb-section-dark tb-stats-band" aria-label="Platform statistics">
         <div class="container">
             <div class="row g-4">
                 <?php foreach ($data['stats'] as $stat):
@@ -293,17 +306,29 @@ require __DIR__ . '/includes/head.php';
     <!-- 2.9 Security -->
     <section class="tb-section tb-section-white" id="security" aria-labelledby="security-heading">
         <div class="container">
-            <div class="tb-prose reveal">
+            <div class="tb-section-header reveal">
+                <span class="tb-section-eyebrow">Security &amp; compliance</span>
                 <h2 id="security-heading" class="tb-section-title">How Trackbook protects your employee data</h2>
-                <p><?= e($data['security']['intro']) ?></p>
-                <?php foreach ($data['security']['items'] as $item): ?>
-                <h3><?= e($item['title']) ?></h3>
-                <p><?= e($item['text']) ?></p>
-                <?php endforeach; ?>
-                <p class="mt-4">
-                    <a href="mailto:<?= e(SUPPORT_EMAIL) ?>?subject=Security%20Documentation%20Request" class="btn tb-btn-primary">Request our security documentation</a>
-                </p>
+                <p class="tb-section-sub mx-auto"><?= e($data['security']['intro']) ?></p>
             </div>
+            <div class="row g-4 reveal">
+                <?php
+                $secIcons = ['Data isolation' => 'bi-shield-lock', 'Encryption' => 'bi-lock-fill', 'Face data handling' => 'bi-person-bounding-box', 'Access control & audit' => 'bi-journal-check', 'Infrastructure' => 'bi-cloud-check-fill'];
+                foreach ($data['security']['items'] as $item):
+                    $icon = $secIcons[$item['title']] ?? 'bi-check-circle-fill';
+                ?>
+                <div class="col-md-6 col-lg-4">
+                    <article class="tb-security-card">
+                        <div class="tb-security-icon"><i class="bi <?= e($icon) ?>" aria-hidden="true"></i></div>
+                        <h3><?= e($item['title']) ?></h3>
+                        <p><?= e($item['text']) ?></p>
+                    </article>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <p class="text-center mt-5 reveal">
+                <a href="mailto:<?= e(SUPPORT_EMAIL) ?>?subject=Security%20Documentation%20Request" class="btn tb-btn-primary tb-btn-lg">Request our security documentation</a>
+            </p>
         </div>
     </section>
 
@@ -316,7 +341,7 @@ require __DIR__ . '/includes/head.php';
                 <blockquote class="tb-mission-quote">&ldquo;<?= e($data['about']['mission']) ?>&rdquo;</blockquote>
             </div>
             <div class="mt-5 reveal">
-                <h3 class="text-center mb-4" style="color:#fff;font-weight:700">Team</h3>
+                <h3 class="tb-about-team-title text-center mb-4">Team</h3>
                 <p class="text-center text-muted small mb-4">Add real names, roles, and photos — even 3–4 people meaningfully improves trust signals.</p>
                 <div class="row g-4">
                     <?php foreach ($data['team'] as $member): ?>
@@ -340,6 +365,7 @@ require __DIR__ . '/includes/head.php';
             <h2 id="testimonials-heading" class="tb-section-title text-center mb-5 reveal">What teams are saying</h2>
             <?php foreach ($data['testimonials'] as $t): ?>
             <article class="tb-testimonial-card reveal">
+                <div class="tb-testimonial-quote" aria-hidden="true"><i class="bi bi-quote"></i></div>
                 <blockquote>&ldquo;<?= e($t['quote']) ?>&rdquo;</blockquote>
                 <div class="tb-testimonial-meta">— <strong><?= e($t['name']) ?></strong>, <?= e($t['role']) ?>, <?= e($t['company']) ?>, <?= e($t['city']) ?></div>
                 <?php if (!empty($t['placeholder'])): ?><p class="text-muted small mt-2 mb-0">[PLACEHOLDER — replace with real customer quote before launch]</p><?php endif; ?>
@@ -423,6 +449,10 @@ require __DIR__ . '/includes/head.php';
         </div>
     </section>
 </main>
+
+<button type="button" class="tb-scroll-top" id="scrollTop" aria-label="Back to top" hidden>
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
 
 <footer class="tb-footer" aria-label="Site footer">
     <div class="container">
