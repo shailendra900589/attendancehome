@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 define('SITE_NAME', 'Trackbook HRMS');
-define('SITE_URL', 'http://localhost/attendancehome');
+define('SITE_URL', 'https://www.trackbook.co');
 define('SUPPORT_EMAIL', 'support@trackbook.co');
 define('COMPANY_LEGAL', 'Trackbook Technologies Pvt. Ltd.');
 define('LOGIN_URL', 'https://hrms.trackbook.co/login/');
