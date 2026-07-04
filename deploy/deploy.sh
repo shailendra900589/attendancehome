@@ -22,11 +22,14 @@ chown -R "${WEB_USER}:${WEB_GROUP}" "${APP_DIR}"
 find "${APP_DIR}" -type d -exec chmod 755 {} \;
 find "${APP_DIR}" -type f -exec chmod 644 {} \;
 
-# Reload web server
+# Reload web server (skip if config broken — use deploy/fix-nginx.sh)
 if systemctl is-active --quiet nginx; then
-  nginx -t
-  systemctl reload nginx
-  echo "==> Nginx reloaded"
+  if nginx -t 2>/dev/null; then
+    systemctl reload nginx
+    echo "==> Nginx reloaded"
+  else
+    echo "==> WARNING: nginx config invalid — run: sudo bash deploy/fix-nginx.sh"
+  fi
 fi
 
 echo "==> Done. SITE_URL will auto-detect from domain (www.trackbook.co)."
