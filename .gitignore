@@ -1,0 +1,12 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Runtime / local data
+storage/contacts.jsonl
+storage/*.log
+
+# Keep storage folder
+!storage/.gitkeep
